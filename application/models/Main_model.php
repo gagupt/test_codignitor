@@ -24,6 +24,15 @@ class Main_model extends CI_Model
         return $result;
     }
 
+    function getUserByUsername($username)
+    {
+        $this->db->select('*');
+        $this->db->where('username', $username);
+        $q = $this->db->get('user1');
+        $result = $q->result_array();
+        return $result;
+    }
+
     // Update record by id
     function updateUser($postData, $id)
     {
@@ -42,7 +51,6 @@ class Main_model extends CI_Model
 
     function addUser($postData)
     {
-
         $name = trim($postData['txt_name1']);
         $uname = trim($postData['txt_uname1']);
         $email = trim($postData['txt_email1']);
@@ -51,6 +59,27 @@ class Main_model extends CI_Model
             // Add
             $value = array('name' => $name, 'email' => $email, 'username' => $uname);
             $this->db->insert('users', $value);
+        }
+    }
+
+    function registerUser($postData)
+    {
+
+        $username = trim($postData['username']);
+        $name = trim($postData['name']);
+        $email = trim($postData['email']);
+        $phone = trim($postData['phone']);
+        $password = trim($postData['password']);
+
+        if ($name != '' && $username != '' && $password != '') {
+            $value = array('username' => $username, 'name' => $name, 'email' => $email,
+                'phone' => $phone);
+            $this->db->insert('user1', $value);
+        }
+
+        if ($username != '' && $password != '') {
+            $value = array('username' => $username, 'password' => $password);
+            $this->db->insert('users_login', $value);
         }
     }
 
@@ -66,13 +95,34 @@ class Main_model extends CI_Model
         $this->db->where('password', $password);
         $query = $this->db->get('users_login');
         //SELECT * FROM users WHERE username = '$username' AND password = '$password'
-        if($query->num_rows() > 0)
-        {
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function can_register($username)
+    {
+        $this->db->where('username', $username);
+        $query = $this->db->get('users_login');
+        if ($query->num_rows() > 0) {
+            return false;
+        } else {
             return true;
         }
-        else
-        {
-            return false;
+    }
+
+    function createPost($postData)
+    {
+        $text = trim($postData['textarea']);
+        $username = $this->session->userdata('username');
+        $timesnow = time();
+        $timestamp = date("F d, Y h:i:s A", $timesnow);
+
+        if ($text != '') {
+            $value = array('text' => $text, 'username' => $username, 'timestamp' => $timestamp);
+            $this->db->insert('timeline', $value);
         }
     }
 }

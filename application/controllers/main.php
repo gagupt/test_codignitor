@@ -40,23 +40,60 @@ class Main extends CI_Controller {
             $this->login();
         }
     }
-    function enter(){
-        if($this->session->userdata('username') != '')
-        {
-            echo '<h2>Welcome - '.$this->session->userdata('username').'</h2>';
-            echo '<label><a href="'.base_url
 
-                ().'main/logout">Logout</a></label>';
+    function register_validation()
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        if($this->form_validation->run())
+        {
+            //true
+            $data['username'] = $this->input->post('username');
+            $data['name'] = $this->input->post('name');
+            $data['email'] = $this->input->post('email');
+            $data['phone'] = $this->input->post('phone');
+            $data['password'] = $this->input->post('password');
+
+            $this->load->model('main_model');
+            if($this->main_model->can_register($data['username']))
+            {
+                $this->main_model->registerUser($data);
+                redirect('http://gauravtestnew.com/index.php/main/login');
+            }
+            else
+            {
+                $this->session->set_flashdata('error', 'Username already exist');
+                redirect('http://gauravtestnew.com/index.php/main/register');
+            }
         }
         else
         {
-            redirect('http://gauravtestnew.com/index.php/main/login');
+            $this->register();
         }
     }
+//    function enter(){
+//        if($this->session->userdata('username') != '')
+//        {
+//            echo '<h2>Welcome - '.$this->session->userdata('username').'</h2>';
+//            echo '<label><a href="'.base_url
+//
+//                ().'main/logout">Logout</a></label>';
+//        }
+//        else
+//        {
+//            redirect('http://gauravtestnew.com/index.php/main/login');
+//        }
+//    }
     function logout()
     {
         $this->session->unset_userdata('username');
-        $readS=$this->session->userdata('username');
+        //$readS=$this->session->userdata('username');
         redirect('http://gauravtestnew.com/index.php/main/login');
+    }
+
+    public function register(){
+        $this->load->view('register_form');
     }
 }

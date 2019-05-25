@@ -12,12 +12,14 @@
 
 <body style="background-color:rgb(240,248,255);">
 <div class="content">
+<!--    <a href="http://gauravtestnew.com/index.php/user">Home</a>-->
 <?php
-if (isset($view) && $view != 3) {
-    ?>
-    <a href="http://gauravtestnew.com/index.php/user">Home</a>
-    <?php
-}
+
+//if (isset($view) && $view != 3) {
+//    ?>
+<!--    <a href="http://gauravtestnew.com/index.php/user">Home</a>-->
+<!--    --><?php
+//}
 // All users list
 if(isset($view) && $view == 1)  {
     ?>
@@ -74,12 +76,12 @@ if(isset($view) && $view == 2)  {
 }
 
 // Add user
-if (isset($view) && $view != 3) {
-    ?>
-    <a href="http://gauravtestnew.com/index.php/user/addUser">Add</a>
-    <?php
-}
-if (isset($view) && $view == 3) {
+    if (isset($view) && $view != 3 && $view != 2) {
+        ?>
+        <a href="http://gauravtestnew.com/index.php/user/addUser">Add</a>
+        <?php
+    }
+    if (isset($view) && $view == 3) {
     ?>
 
     <form method='post' action='http://gauravtestnew.com/index.php/user/addUser'>
