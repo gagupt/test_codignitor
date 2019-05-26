@@ -4,89 +4,68 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class User extends CI_Controller
 {
 
-    public function index()
+    public function loadOldTable()
     {
-
-        //echo phpinfo();
-        //load model
-
         $this->load->library('session');
-        //$this->session->set_userdata('name','virat');
-
         $readS = $this->session->userdata('username');
-//    echo $readS;
-
         if (empty($readS)) {
             redirect('http://gauravtestnew.com/index.php/main/login');
         }
-
-        ?>
-        <!--<html>-->
-        <!---->
-        <!--<style>-->
-        <!--    .flex-container {-->
-        <!--        display: flex;-->
-        <!--        flex-direction: row;-->
-        <!--        justify-content: space-between;-->
-        <!--        height: 200px;-->
-        <!--        align-items: flex-start;-->
-        <!--    }-->
-        <!--</style>-->
-        <!--<body>-->
-        <!---->
-        <!--<div class="flex-container">-->
-        <!--    <div>1sfsd</div>-->
-        <!--    <div>2</div>-->
-        <!--    <div>3</div>-->
-        <!--</div>-->
-        <!--</body>-->
-        <!--</html>-->
-
-        <?php
-        //$this->load->view('Timeline');
-//        $this->load->view('Notification');
-//        $this->load->view('Chat');
-
-        //$this->load->view('session_view');
-
         $this->load->model('Main_model');
-
-        // Get
         $edit = $this->input->get('edit');
 
         if (!isset($edit)) {
-            // get data
             $data['response'] = $this->Main_model->getUsersList();
             $data['view'] = 1;
-
-            // load view
-            //$this->load->view('user_view', $data);
             $this->load->view('Timeline', $data);
         } else {
-
-            // Check submit button POST or not
             if ($this->input->post('submit') != NULL) {
-                // POST data
                 $postData = $this->input->post();
-
-                //load model
                 $this->load->model('Main_model');
-
-                // Update record
                 $this->Main_model->updateUser($postData, $edit);
-
-                // Redirect page
                 redirect('user/');
-
             } else {
-
-                // get data by id
                 $data['response'] = $this->Main_model->getUserById($edit);
                 $data['view'] = 2;
-
-                // load view
                 $this->load->view('Timeline', $data);
+            }
+        }
+    }
 
+    public function index()
+    {
+        $this->load->library('session');
+        $readS = $this->session->userdata('username');
+        if (empty($readS)) {
+            redirect('http://gauravtestnew.com/index.php/main/login');
+        }
+        $this->load->model('Main_model');
+        $edit = $this->input->get('edit');
+
+        if (!isset($edit)) {
+            $data['response'] = $this->Main_model->getPostsList();
+            $data['view'] = 1;
+
+            //create name to username map
+            $this->load->model('Main_model');
+            $user1list = $this->Main_model->getNewUsersList();
+
+            foreach ($user1list as $user1) {
+                $namemap[$user1['username']] = $user1['name'];
+            }
+            $data['namemap'] = $namemap;
+
+            $this->load->view('Timeline', $data);
+        } else {
+            if ($this->input->post('submit') != NULL) {
+                $postData = $this->input->post();
+                $this->load->model('Main_model');
+                $this->Main_model->updatePost($postData, $edit);
+                redirect('user/');
+            } else {
+                $data['response'] = $this->Main_model->getPostById($edit);
+                $data['view'] = 2;
+                $this->load->view('Timeline', $data);
             }
         }
     }
@@ -110,6 +89,15 @@ class User extends CI_Controller
         $this->load->view('Timeline', $data);
     }
 
+    public function getPublicProfile()
+    {
+        $username = $this->input->get('username');
+        $data['profile'] = 2;
+        $this->load->model('Main_model');
+        $data['userdata'] = $this->Main_model->getUserByUsername($username);
+        $this->load->view('Timeline', $data);
+    }
+
     public function deleteUser()
     {
         $this->load->model('Main_model');
@@ -121,30 +109,30 @@ class User extends CI_Controller
         redirect('user/');
     }
 
+    public function deletePost()
+    {
+        $this->load->model('Main_model');
+        $delete = $this->input->get('delete');
+
+        $this->load->model('Main_model');
+        $this->Main_model->deletePost($delete);
+
+        redirect('user/');
+    }
 
     public function addUser()
     {
         $this->load->model('Test_Redis');
         //$this->Test_Redis->setRedisData("key1", "data1");
-
-        //$this->index();
         $this->load->model('Main_model');
         $data['view'] = 3;
         $data['response'] = $this->Main_model->getUsersList();
         $this->load->view('Timeline', $data);
         if ($this->input->post('submit') != NULL) {
-            // POST data
             $postData = $this->input->post();
-
-            //load model
             $this->load->model('Main_model');
-
-            // Update record
             $this->Main_model->addUser($postData);
-
-            // Redirect page
             redirect('user/');
-
         }
     }
 

@@ -86,7 +86,7 @@
         <table>
             <tr>
                 <td><h4>Username</h4></td>
-                <td><?php   echo $this->session->userdata('username'); ?></td>
+                <td><?php   print_r($userdata[0]['username']); ?></td>
             </tr>
             <tr>
                 <td><h4>Name</h4></td>

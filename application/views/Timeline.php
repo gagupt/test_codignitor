@@ -159,7 +159,7 @@
             if (isset($response)) {
                 $data1['response'] = $response;
             }
-            $this->load->view('user_view', $data1);
+            $this->load->view('postview', $data1);
         }
         ?>
     </div>
