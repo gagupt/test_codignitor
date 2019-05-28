@@ -109,6 +109,30 @@ class User extends CI_Controller
         redirect('user/');
     }
 
+    public function addFriend()
+    {
+        $this->load->model('Main_model');
+        $username2 = $this->input->get('username2');
+        $this->Main_model->addFriend($this->session->userdata('username'), $username2);
+        redirect('user/showFriends');
+    }
+
+    public function removeFriend()
+    {
+        $this->load->model('Main_model');
+        $username2 = $this->input->get('username2');
+        $this->Main_model->removeFriend($this->session->userdata('username'), $username2);
+        redirect('user/showFriends');
+    }
+
+    public function removeFollowers()
+    {
+        $this->load->model('Main_model');
+        $username1 = $this->input->get('username1');
+        $this->Main_model->removeFriend($username1, $this->session->userdata('username'));
+        redirect('user/showFriends');
+    }
+
     public function deletePost()
     {
         $this->load->model('Main_model');
@@ -142,5 +166,34 @@ class User extends CI_Controller
         $postData = $this->input->post();
         $this->Main_model->createPost($postData);
         redirect('user/');
+    }
+
+    public function showFriends()
+    {
+        $data['friends'] = 1;
+
+        $this->load->model('Main_model');
+        $user1list = $this->Main_model->getNewUsersList();
+        $data['user1list'] = $user1list;
+
+        foreach ($user1list as $user1) {
+            $namemap[$user1['username']] = $user1['name'];
+        }
+        $data['namemap'] = $namemap;
+
+        $friends = $this->Main_model->getFriendssList($this->session->userdata('username'));
+        $data['friends'] = $friends;
+
+        $followers = $this->Main_model->getFollowersList($this->session->userdata('username'));
+        $data['followers'] = $followers;
+
+        $friend_reqs_rec = $this->Main_model->getFriendsReqReceList($this->session->userdata('username'));
+        $data['friend_reqs_rec'] = $friend_reqs_rec;
+
+        $friend_reqs_sent = $this->Main_model->getFriendsReqSentList($this->session->userdata('username'));
+        $data['friend_reqs_sent'] = $friend_reqs_sent;
+
+        $data['userdata'] = $this->Main_model->getUserByUsername($this->session->userdata('username'));
+        $this->load->view('Timeline', $data);
     }
 }

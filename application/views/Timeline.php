@@ -102,7 +102,7 @@
 
 <!-- Header -->
 <div class="header">
-    <h1>Facebook Return</h1>
+    <h1>Testing</h1>
     <p>A small social network</p>
 </div>
 
@@ -111,7 +111,7 @@
     <a href="http://gauravtestnew.com/index.php/user">Home</a>
     <a href="http://gauravtestnew.com/index.php/user/getProfile">Profile</a>
     <a href="#">Settings</a>
-    <a href="#">Friends</a>
+    <a href="http://gauravtestnew.com/index.php/user/showFriends">Friends</a>
     <a href="http://gauravtestnew.com/index.php/main/logout">Logout</a>
 </div>
 
@@ -137,12 +137,6 @@
         <p>Lorem ipsum dolor sit ame.</p>
     </div>
     <div class="main">
-        <form method="post" action="http://gauravtestnew.com/index.php/user/createPost">
-            <textarea rows="4" cols="100" name="textarea" placeholder="Whats in your mind..."></textarea>
-            <input type="submit" value="Post">
-        </form>
-
-
         <?php
         if (isset($profile)) {
             if (isset($profile)) {
@@ -152,12 +146,46 @@
                 $data1['userdata'] = $userdata;
             }
             $this->load->view('profile', $data1);
+        } else if (isset($friends)) {
+            if (isset($userdata)) {
+                $data1['userdata'] = $userdata;
+            }
+            if (isset($user1list)) {
+                $data1['user1list'] = $user1list;
+            }
+            if (isset($friends)) {
+                $data1['friends'] = $friends;
+            }
+            if (isset($followers)) {
+                $data1['followers'] = $followers;
+            }
+            if (isset($friend_reqs_rec)) {
+                $data1['friend_reqs_rec'] = $friend_reqs_rec;
+            }
+            if (isset($friend_reqs_sent)) {
+                $data1['friend_reqs_sent'] = $friend_reqs_sent;
+            }
+            if (isset($namemap)) {
+                $data1['namemap'] = $namemap;
+            }
+            $this->load->view('friends', $data1);
         } else {
+            if (isset($namemap)) {
+                $data1['namemap'] = $namemap;
+            }
             if (isset($view)) {
                 $data1['view'] = $view;
             }
             if (isset($response)) {
                 $data1['response'] = $response;
+            }
+            if ($data1['view'] == 1) {
+                ?>
+                <form method="post" action="http://gauravtestnew.com/index.php/user/createPost">
+                    <textarea rows="4" cols="100" name="textarea" placeholder="Whats in your mind..."></textarea>
+                    <input type="submit" value="Post">
+                </form>
+                <?php
             }
             $this->load->view('postview', $data1);
         }

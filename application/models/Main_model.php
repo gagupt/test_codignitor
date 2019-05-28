@@ -22,11 +22,46 @@ class Main_model extends CI_Model
         return $result;
     }
 
+    function getFriendssList($username1)
+    {
+        $this->db->select('*');
+        $this->db->where('username1', $username1);
+        $q = $this->db->get('friends');
+        $result = $q->result_array();
+        return $result;
+    }
+
+    function getFollowersList($username1)
+    {
+        $this->db->select('*');
+        $this->db->where('username2', $username1);
+        $q = $this->db->get('friends');
+        $result = $q->result_array();
+        return $result;
+    }
+
+    function getFriendsReqReceList($username1)
+    {
+        $this->db->select('*');
+        $this->db->where('username1', $username1);
+        $q = $this->db->get('friend_request_received');
+        $result = $q->result_array();
+        return $result;
+    }
+
+    function getFriendsReqSentList($username1)
+    {
+        $this->db->select('*');
+        $this->db->where('username1', $username1);
+        $q = $this->db->get('friend_request_sent');
+        $result = $q->result_array();
+        return $result;
+    }
+
     function getPostsList()
     {
         $this->db->select('*');
-        $this->db->order_by('timestamp', 'desc');
-        $this->db->limit(10, 0);
+        $this->db->order_by('id', 'desc');
         $q = $this->db->get('timeline');
         $result = $q->result_array();
         return $result;
@@ -83,6 +118,26 @@ class Main_model extends CI_Model
             $this->db->where('id', $id);
             $this->db->update('timeline', $value);
         }
+    }
+
+    function addFriend($username1, $username2)
+    {
+        if (function_exists('date_default_timezone_set')) {
+            date_default_timezone_set("Asia/Kolkata");
+        }
+        $timesnow = time();
+        $timestamp = date("F d, Y h:i:sa", $timesnow);
+        if ($username1 != '' && $username2 != '') {
+            $value = array('username1' => $username1, 'username2' => $username2, 'creation_date' => $timestamp);
+            $this->db->insert('friends', $value);
+        }
+    }
+
+    function removeFriend($username1, $username2)
+    {
+        $value = array('username1' => $username1);
+        $value = array('username2' => $username2);
+        $this->db->delete('friends', $value);
     }
 
     function addUser($postData)
@@ -157,7 +212,7 @@ class Main_model extends CI_Model
 
     function createPost($postData)
     {
-        if(function_exists('date_default_timezone_set')) {
+        if (function_exists('date_default_timezone_set')) {
             date_default_timezone_set("Asia/Kolkata");
         }
         $text = trim($postData['textarea']);
