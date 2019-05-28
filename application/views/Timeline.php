@@ -17,7 +17,7 @@
 
         /* Header/logo Title */
         .header {
-            padding: 60px;
+            padding: 1px;
             text-align: center;
             background: #1abc9c;
             color: white;
@@ -94,15 +94,11 @@
 </head>
 <body>
 
-<!-- Note -->
-<div style="background:yellow;padding:5px">
-    <h4 style="text-align:center">Welcome <?php echo $this->session->userdata('username'); ?>
-    </h4>
-</div>
-
 <!-- Header -->
 <div class="header">
-    <h1>Testing</h1>
+    <h4 style="text-align:center">Welcome <?php print_r($userdata[0]['name']); ?> @
+    </h4>
+    <h1>FB 2.0</h1>
     <p>A small social network</p>
 </div>
 
@@ -110,7 +106,7 @@
 <div class="navbar">
     <a href="http://gauravtestnew.com/index.php/user">Home</a>
     <a href="http://gauravtestnew.com/index.php/user/getProfile">Profile</a>
-    <a href="#">Settings</a>
+<!--    <a href="#">Settings</a>-->
     <a href="http://gauravtestnew.com/index.php/user/showFriends">Friends</a>
     <a href="http://gauravtestnew.com/index.php/main/logout">Logout</a>
 </div>
@@ -119,22 +115,19 @@
 <div class="row">
     <div class="side">
         <h2>Notifications</h2>
+        <?php
 
+        $this->load->view('Notification');
 
-        <div class="fakeimg" style="height:60px;">Image</div>
-        <br>
-        <div class="fakeimg" style="height:60px;">Image</div>
-        <br>
-        <div class="fakeimg" style="height:60px;">Image</div>
+        ?>
 
-        <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
         <h3>Online Users</h3>
         <div class="fakeimg" style="height:60px;">Image</div>
         <br>
         <div class="fakeimg" style="height:60px;">Image</div>
         <br>
         <div class="fakeimg" style="height:60px;">Image</div>
-        <p>Lorem ipsum dolor sit ame.</p>
+        <p>Coming soon..</p>
     </div>
     <div class="main">
         <?php

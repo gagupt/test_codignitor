@@ -41,7 +41,7 @@ class User extends CI_Controller
         }
         $this->load->model('Main_model');
         $edit = $this->input->get('edit');
-
+        $data['userdata'] = $this->Main_model->getUserByUsername($this->session->userdata('username'));
         if (!isset($edit)) {
             $data['response'] = $this->Main_model->getPostsList();
             $data['view'] = 1;
@@ -54,6 +54,16 @@ class User extends CI_Controller
                 $namemap[$user1['username']] = $user1['name'];
             }
             $data['namemap'] = $namemap;
+
+            //create likes map
+            $likes = array();
+            foreach ($data['response'] as $item) {
+                $likes[$item['id']] = $this->Main_model->getLikesCount($item['id']);
+                $likes[$item['id']]['isLiked'] = $this->Main_model->
+                isLikedPost($this->session->userdata('username'), $item['id']);
+            }
+            $data['likes'] = $likes;
+            $data['notifications'] = $this->Main_model->getNotifsForUser($this->session->userdata('username'));
 
             $this->load->view('Timeline', $data);
         } else {
@@ -86,6 +96,17 @@ class User extends CI_Controller
         $data['profile'] = 1;
         $this->load->model('Main_model');
         $data['userdata'] = $this->Main_model->getUserByUsername($this->session->userdata('username'));
+
+        //create name to username map
+        $this->load->model('Main_model');
+        $user1list = $this->Main_model->getNewUsersList();
+
+        foreach ($user1list as $user1) {
+            $namemap[$user1['username']] = $user1['name'];
+        }
+        $data['namemap'] = $namemap;
+
+        $data['notifications'] = $this->Main_model->getNotifsForUser($this->session->userdata('username'));
         $this->load->view('Timeline', $data);
     }
 
@@ -95,6 +116,17 @@ class User extends CI_Controller
         $data['profile'] = 2;
         $this->load->model('Main_model');
         $data['userdata'] = $this->Main_model->getUserByUsername($username);
+        //create name to username map
+        $this->load->model('Main_model');
+        $user1list = $this->Main_model->getNewUsersList();
+
+        foreach ($user1list as $user1) {
+            $namemap[$user1['username']] = $user1['name'];
+        }
+        $data['namemap'] = $namemap;
+
+        $data['notifications'] = $this->Main_model->getNotifsForUser($this->session->userdata('username'));
+
         $this->load->view('Timeline', $data);
     }
 
@@ -137,9 +169,27 @@ class User extends CI_Controller
     {
         $this->load->model('Main_model');
         $delete = $this->input->get('delete');
-
-        $this->load->model('Main_model');
         $this->Main_model->deletePost($delete);
+
+        redirect('user/');
+    }
+
+    public function likePost()
+    {
+        $this->load->model('Main_model');
+        $like = $this->input->get('like');
+
+        $this->Main_model->likePost($this->session->userdata('username'), $like);
+
+        redirect('user/');
+    }
+
+    public function unlikePost()
+    {
+        $this->load->model('Main_model');
+        $unlike = $this->input->get('unlike');
+
+        $this->Main_model->unlikePost($this->session->userdata('username'), $unlike);
 
         redirect('user/');
     }
@@ -175,6 +225,17 @@ class User extends CI_Controller
         $this->load->model('Main_model');
         $user1list = $this->Main_model->getNewUsersList();
         $data['user1list'] = $user1list;
+
+        //create name to username map
+        $this->load->model('Main_model');
+        $user1list = $this->Main_model->getNewUsersList();
+
+        foreach ($user1list as $user1) {
+            $namemap[$user1['username']] = $user1['name'];
+        }
+        $data['namemap'] = $namemap;
+
+        $data['notifications'] = $this->Main_model->getNotifsForUser($this->session->userdata('username'));
 
         foreach ($user1list as $user1) {
             $namemap[$user1['username']] = $user1['name'];

@@ -104,7 +104,7 @@
         </table>
         <h5>Photo of me:</h5>
         <div class="fakeimg" style="height:200px;">Image</div>
-        <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+        <p>Coming soon..</p>
     </div>
 </div>
 

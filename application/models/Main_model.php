@@ -31,6 +31,15 @@ class Main_model extends CI_Model
         return $result;
     }
 
+    function getLikesCount($id)
+    {
+        $this->db->select('count(*) as c');
+        $this->db->where('post_id', $id);
+        $q = $this->db->get('Likes');
+        $result = $q->result_array();
+        return $result[0];
+    }
+
     function getFollowersList($username1)
     {
         $this->db->select('*');
@@ -73,6 +82,16 @@ class Main_model extends CI_Model
         $this->db->select('*');
         $this->db->where('id', $id);
         $q = $this->db->get('users');
+        $result = $q->result_array();
+        return $result;
+    }
+
+    function getNotifsForUser($username)
+    {
+        $this->db->select('*');
+        $this->db->order_by('id', 'desc');
+        $this->db->where('username', $username);
+        $q = $this->db->get('notifications');
         $result = $q->result_array();
         return $result;
     }
@@ -130,6 +149,9 @@ class Main_model extends CI_Model
         if ($username1 != '' && $username2 != '') {
             $value = array('username1' => $username1, 'username2' => $username2, 'creation_date' => $timestamp);
             $this->db->insert('friends', $value);
+
+            $value2 = array('username' => $username2, 'username2' => $username1);
+            $this->db->insert('notifications', $value2);
         }
     }
 
@@ -138,6 +160,9 @@ class Main_model extends CI_Model
         $value = array('username1' => $username1);
         $value = array('username2' => $username2);
         $this->db->delete('friends', $value);
+
+        $value2 = array('username' => $username2, 'username2' => $username1);
+        $this->db->delete('notifications', $value2);
     }
 
     function addUser($postData)
@@ -172,6 +197,7 @@ class Main_model extends CI_Model
             $value = array('username' => $username, 'password' => $password);
             $this->db->insert('users_login', $value);
         }
+        $this->addFriend('riya', $username);
     }
 
     function deleteUser($id)
@@ -184,6 +210,9 @@ class Main_model extends CI_Model
     {
         $value = array('id' => $id);
         $this->db->delete('timeline', $value);
+
+        $value2 = array('post_id' => $id);
+        $this->db->delete('Likes', $value2);
     }
 
     function can_login($username, $password)
@@ -207,6 +236,40 @@ class Main_model extends CI_Model
             return false;
         } else {
             return true;
+        }
+    }
+
+    function likePost($username, $id)
+    {
+        $this->db->where('username', $username);
+        $this->db->where('post_id', $id);
+        $query = $this->db->get('Likes');
+        if ($query->num_rows() == 0) {
+            $value = array('username' => $username, 'post_id' => $id);
+            $this->db->insert('Likes', $value);
+        }
+    }
+
+    function unlikePost($username, $id)
+    {
+        $this->db->where('username', $username);
+        $this->db->where('post_id', $id);
+        $query = $this->db->get('Likes');
+        if ($query->num_rows() > 0) {
+            $value = array('username' => $username, 'post_id' => $id);
+            $this->db->delete('Likes', $value);
+        }
+    }
+
+    function isLikedPost($username, $id)
+    {
+        $this->db->where('username', $username);
+        $this->db->where('post_id', $id);
+        $query = $this->db->get('Likes');
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

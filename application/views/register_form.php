@@ -69,6 +69,13 @@
             </div>
 
         </div>
+        <div id='parent_div_2'>
+            <div class="form-group">
+                <input type="button" name="register" value="Login" class="btn btn-info"
+                       onclick="location.href = 'http://gauravtestnew.com/index.php/main/login';"
+                />
+            </div>
+        </div>
     </form>
 </div>
 </body>

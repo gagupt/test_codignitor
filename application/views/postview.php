@@ -34,9 +34,10 @@
             $sno = 1;
             foreach ($response as $val) {
                 $showedit = 1;
-                if ($val['username'] == $this->session->userdata('username') ||
-                    $this->session->userdata('username') == 'admin') {
-                    echo '<tr>
+                if ($likes[$val['id']]['isLiked']) {
+                    if ($val['username'] == $this->session->userdata('username') ||
+                        $this->session->userdata('username') == 'admin') {
+                        echo '<tr>
                         <td height="30" width="100">
                         <a href="' . site_url() . '/user/getPublicProfile?username=' . $val['username'] . '">
                         <h5>' . $namemap[$val['username']] . '</h5></a>
@@ -49,28 +50,68 @@
                         <tr class="separated">
                         <td height="30" style="font-size: small"><a href="' . site_url() . '/user/index?edit=' . $val['id'] . '">Edit</a>
                         <a href="' . site_url() . '/user/deletePost?delete=' . $val['id'] . '">Delete</a>
-                        Like
-                        100
+                        <a href="' . site_url() . '/user/unlikePost?unlike=' . $val['id'] . '">Liked</a>
+                        ' . $likes[$val['id']]['c'] . '
                         </td>
                     </tr>';
-                } else {
-                    echo '<tr>
+                    } else {
+                        echo '<tr>
                         <td height="30" width="100">
                         <a href="' . site_url() . '/user/getPublicProfile?username=' . $val['username'] . '">
                         <h5>' . $namemap[$val['username']] . '</h5></a>
                         </td>
                         </tr>
-                        <tr class="separated">
+                        <tr>
                         <td height="30" width="100" align="center" style="font-size: large">' . $val['text'] . '</td>
                         <td height="30" width="100" style="font-size: small">' . $val['timestamp'] . '</td>
                         </tr>
                         <tr class="separated">
                         <td height="30" style="font-size: small">
-                        Like
-                        100
+                        <a href="' . site_url() . '/user/unlikePost?unlike=' . $val['id'] . '">Liked</a>
+                        ' . $likes[$val['id']]['c'] . '
                         </td>
                     </tr>
                         ';
+                    }
+                } else {
+                    if ($val['username'] == $this->session->userdata('username') ||
+                        $this->session->userdata('username') == 'admin') {
+                        echo '<tr>
+                        <td height="30" width="100">
+                        <a href="' . site_url() . '/user/getPublicProfile?username=' . $val['username'] . '">
+                        <h5>' . $namemap[$val['username']] . '</h5></a>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td height="30" width="100" align="center" style="font-size: large">' . $val['text'] . '</td>
+                        <td height="30" width="100" style="font-size: small">' . $val['timestamp'] . '</td>
+                        </tr>
+                        <tr class="separated">
+                        <td height="30" style="font-size: small"><a href="' . site_url() . '/user/index?edit=' . $val['id'] . '">Edit</a>
+                        <a href="' . site_url() . '/user/deletePost?delete=' . $val['id'] . '">Delete</a>
+                        <a href="' . site_url() . '/user/likePost?like=' . $val['id'] . '">Like</a>
+                        ' . $likes[$val['id']]['c'] . '
+                        </td>
+                    </tr>';
+                    } else {
+                        echo '<tr>
+                        <td height="30" width="100">
+                        <a href="' . site_url() . '/user/getPublicProfile?username=' . $val['username'] . '">
+                        <h5>' . $namemap[$val['username']] . '</h5></a>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td height="30" width="100" align="center" style="font-size: large">' . $val['text'] . '</td>
+                        <td height="30" width="100" style="font-size: small">' . $val['timestamp'] . '</td>
+                        </tr>
+                        <tr class="separated">
+                        <td height="30" style="font-size: small">
+                        <a href="' . site_url() . '/user/likePost?like=' . $val['id'] . '">Like</a>
+                        ' . $likes[$val['id']]['c'] . '
+                        </td>
+                    </tr>
+                        ';
+                    }
                 }
                 $sno++;
             }
