@@ -2,7 +2,7 @@
 <html>
 <head>
     <style>
-        #parent_div_1, #parent_div_2{
+        #parent_div_1, #parent_div_2 {
             width: 100px;
             height: 100px;
             float: left;
@@ -17,7 +17,7 @@
 <body>
 <div class="container">
     <br/><br/><br/>
-    <form method="post" action="http://gauravtestnew.com/index.php/main/login_validation">
+    <form method="post" action="<?php echo site_url() . '/main/login_validation' ?>">
         <div class="form-group">
             <label>Enter Username</label>
             <input type="text" name="username" class="form-control"/>
@@ -48,8 +48,8 @@
         <div id='parent_div_2'>
             <div class="form-group">
                 <input type="button" name="register" value="New Registeration" class="btn btn-info"
-                       onclick="location.href = 'http://gauravtestnew.com/index.php/main/register';"
-                      />
+                       onclick="location.href = '<?php echo site_url() ?>/main/register';"
+                />
             </div>
         </div>
     </form>

@@ -78,13 +78,13 @@ if(isset($view) && $view == 2)  {
 // Add user
     if (isset($view) && $view != 3 && $view != 2) {
         ?>
-        <a href="http://gauravtestnew.com/index.php/user/addUser">Add</a>
+        <a href='<?php echo site_url() ?>/user/addUser'>Add</a>
         <?php
     }
     if (isset($view) && $view == 3) {
     ?>
 
-    <form method='post' action='http://gauravtestnew.com/index.php/user/addUser'>
+    <form method='post' action="<?php echo site_url()?>/user/addUser">
         <table>
             <tr>
                 <td>Username</td>

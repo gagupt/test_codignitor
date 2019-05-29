@@ -9,7 +9,7 @@ class User extends CI_Controller
         $this->load->library('session');
         $readS = $this->session->userdata('username');
         if (empty($readS)) {
-            redirect('http://gauravtestnew.com/index.php/main/login');
+            redirect('/main/login');
         }
         $this->load->model('Main_model');
         $edit = $this->input->get('edit');
@@ -37,7 +37,7 @@ class User extends CI_Controller
         $this->load->library('session');
         $readS = $this->session->userdata('username');
         if (empty($readS)) {
-            redirect('http://gauravtestnew.com/index.php/main/login');
+            redirect('/main/login');
         }
         $this->load->model('Main_model');
         $edit = $this->input->get('edit');

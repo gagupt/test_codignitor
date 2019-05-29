@@ -9,7 +9,7 @@
 <body>
 Welcome <?php echo $this->session->userdata('username'); ?>
 <br>
-<a href = 'http://gauravtestnew.com/index.php/main/logout'>
+<a href = "<?php echo site_url()?>/main/logout">
     Click Here</a> to logout.
 </body>
 

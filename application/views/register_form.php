@@ -19,7 +19,7 @@
 
 <div class="container">
     <br/><br/><br/>
-    <form method="post" action="http://gauravtestnew.com/index.php/main/register_validation">
+    <form method="post" action="<?php echo site_url()?>/main/register_validation">
         <div class="form-group">
             <label>Username</label>
             <input type="text" name="username" class="form-control"/>
@@ -72,7 +72,7 @@
         <div id='parent_div_2'>
             <div class="form-group">
                 <input type="button" name="register" value="Login" class="btn btn-info"
-                       onclick="location.href = 'http://gauravtestnew.com/index.php/main/login';"
+                       onclick="location.href = '<?php echo site_url() ?>/main/login';"
                 />
             </div>
         </div>
