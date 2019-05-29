@@ -26,12 +26,12 @@ class Main extends CI_Controller {
                     'username'     =>     $username
                 );
                 $this->session->set_userdata($session_data);
-                redirect('http://gauravtestnew.com/index.php/user');
+                redirect('/user');
             }
             else
             {
                 $this->session->set_flashdata('error', 'Invalid Username and Password');
-                redirect('http://gauravtestnew.com/index.php/main/login');
+                redirect(site_url().'/main/login');
             }
         }
         else
@@ -60,12 +60,12 @@ class Main extends CI_Controller {
             if($this->main_model->can_register($data['username']))
             {
                 $this->main_model->registerUser($data);
-                redirect('http://gauravtestnew.com/index.php/main/login');
+                redirect('main/login');
             }
             else
             {
                 $this->session->set_flashdata('error', 'Username already exist');
-                redirect('http://gauravtestnew.com/index.php/main/register');
+                redirect('/main/register');
             }
         }
         else
@@ -90,7 +90,7 @@ class Main extends CI_Controller {
     {
         $this->session->unset_userdata('username');
         //$readS=$this->session->userdata('username');
-        redirect('http://gauravtestnew.com/index.php/main/login');
+        redirect('/main/login');
     }
 
     public function register(){

@@ -104,11 +104,11 @@
 
 <!-- Navigation Bar -->
 <div class="navbar">
-    <a href="http://gauravtestnew.com/index.php/user">Home</a>
-    <a href="http://gauravtestnew.com/index.php/user/getProfile">Profile</a>
+    <a href='<?php echo site_url() ?>/user'>Home</a>
+    <a href='<?php echo site_url() ?>/user/getProfile'>Profile</a>
 <!--    <a href="#">Settings</a>-->
-    <a href="http://gauravtestnew.com/index.php/user/showFriends">Friends</a>
-    <a href="http://gauravtestnew.com/index.php/main/logout">Logout</a>
+    <a href='<?php echo site_url() ?>/user/showFriends'>Friends</a>
+    <a href='<?php echo site_url() ?>/main/logout'>Logout</a>
 </div>
 
 <!-- The flexible grid (content) -->
@@ -174,7 +174,7 @@
             }
             if ($data1['view'] == 1) {
                 ?>
-                <form method="post" action="http://gauravtestnew.com/index.php/user/createPost">
+                <form method="post" action="<?php echo site_url()?>/user/createPost">
                     <textarea rows="4" cols="100" name="textarea" placeholder="Whats in your mind..."></textarea>
                     <input type="submit" value="Post">
                 </form>
