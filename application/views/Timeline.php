@@ -138,7 +138,7 @@
             if (isset($userdata)) {
                 $data1['userdata'] = $userdata;
             }
-            $this->load->view('profile', $data1);
+            $this->load->view('Profile', $data1);
         } else if (isset($friends)) {
             if (isset($userdata)) {
                 $data1['userdata'] = $userdata;
@@ -161,7 +161,7 @@
             if (isset($namemap)) {
                 $data1['namemap'] = $namemap;
             }
-            $this->load->view('friends', $data1);
+            $this->load->view('Friends', $data1);
         } else {
             if (isset($namemap)) {
                 $data1['namemap'] = $namemap;
